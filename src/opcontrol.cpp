@@ -58,7 +58,7 @@ void shoot(){
   intake.move_velocity(0);
 
   while(puncher.get_position()<1000){
-    delay(5);
+    delay(05);
   }
   puncher.move_velocity(0);
   puncher.set_brake_mode(E_MOTOR_BRAKE_COAST);
