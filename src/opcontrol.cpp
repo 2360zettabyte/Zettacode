@@ -255,6 +255,24 @@ void opcontrol() {
 }
 
 /*
+---PID LEARNING----
+Try #1:
+
+#define KF 0
+#define KP 1.0f
+#define KI 0.001f
+#define KD 0.1f
+
+void initialize() {
+  pros::Motor motor (1);
+  pros::motor_pid_s_t pid = pros::Motor::convert_pid(KF, KP, KI, KD); <--- KF the input???
+  motor.set_pos_pid(pid);
+}
+
+
+
+
+
 HOW TO CONSOLE
 std::string text = "FlyWheel: "+ std::to_string(flywheel.get_actual_velocity()) + " RPM";
 contConsole(text.c_str());
