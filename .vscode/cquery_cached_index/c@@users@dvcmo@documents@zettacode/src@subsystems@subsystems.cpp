@@ -11,10 +11,10 @@ double armsResting = 8;
 | --BASIC METHODS--
 ---------------------------------------------------------------------------------*/
 //--angler--//
-void anglerMoveDegree(int degree, int speed){   angler.move_absolute((degree/360.0)*1800*anglerMa, speed);  }
+void anglerMoveDegree(double degree, int speed){   angler.move_absolute((degree/360.0)*1800*anglerMa, speed);  }
 double anglerGetDegree(){   return (angler.get_position()/1800.0)/anglerMa*360.0; }
 //--arms--//
-void armsMoveDegree(int degree, int speed){   arms.move_absolute((degree/360.0)*1800*armsMa, speed);  }
+void armsMoveDegree(double degree, int speed){   arms.move_absolute((degree/360.0)*1800*armsMa, speed);  }
 double armsGetDegree(){   return (arms.get_position()/1800.0)/armsMa*360.0; }
 
 /*------------------------------------------------------------------

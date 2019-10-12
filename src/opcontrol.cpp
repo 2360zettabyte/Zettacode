@@ -15,18 +15,23 @@ int prevArmsDegree = 0;
 int newArmsDegree = 0;
 int armsSpeed = 0;
 
-int noCollisionDegree = 16;
+double noCollisionDegree = 13;
 
 void opcontrol(){
   while(true){
     //--Deploy Robot--//
     if(cont.btnA()){
-      deploy();
+      armsMoveDegree(15, 100);
+      delay(500);
+      armsMoveDegree(0,100);
+      delay(1000);
+      newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
+      newArmsDegree = 26; armsSpeed = 100;
     }
 
     if(cont.btnX()){
-      rollerR.move_velocity(-10);
-      rollerL.move_velocity(-10);
+      rollerR.move_velocity(-20);
+      rollerL.move_velocity(-20);
       drive.translate(8, 270, 25);
     }
 
@@ -36,8 +41,9 @@ void opcontrol(){
 
     //--Control the angling of the Tray--//
     if(armsGetDegree()<3){
-      if(cont.l1()){ newAnglerDegree = 95; anglerSpeed = 100; }
+      if(cont.l1()){ newAnglerDegree = 84; anglerSpeed = 100; }
       if(cont.l2()){ newAnglerDegree = 0; anglerSpeed = 100; }
+
     }
 
     //--Control the  anglingg of the Rollers
@@ -53,7 +59,9 @@ void opcontrol(){
       newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
       newArmsDegree = 0; armsSpeed = 100;//armsMoveDegree(0, 100);
     }
-
+    if(armsGetDegree()<3&&prevArmsDegree==newArmsDegree && prevArmsDegree==0 && newAnglerDegree==prevAnglerDegree && prevAnglerDegree == noCollisionDegree){
+      newAnglerDegree = 0;
+    }
     if(cont.r2()){
       rollerR.move_velocity(200);
       rollerL.move_velocity(200);
@@ -61,7 +69,7 @@ void opcontrol(){
       rollerR.move_velocity(-100);
       rollerL.move_velocity(-100);
     }else{
-      
+
       rollerR.move_velocity(0);
       rollerL.move_velocity(0);
     }
