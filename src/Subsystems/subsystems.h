@@ -19,6 +19,19 @@ extern void anglerMoveDegree(double degree, int speed);
 extern double anglerGetDegree();
     //returns a degree (as a double) of the angler relative to its starting angle
 
+/*---------------------------------------------------------------------------------
+| --Rollers Basic Methods--
+|   - Various basic methods for the rollers that are used for more complex methods
+---------------------------------------------------------------------------------*/
+extern void rollersVel(int velocity);
+    //Turns both rollers at a certain rpm (+ is intake)
+
+/*------------------------------------------------------------------
+| --armsAnglerWait--
+|   -waits until the angler and the arms are at a certain angle
+------------------------------------------------------------------*/
+extern void armsAnglerWait();
+
 /*------------------------------------------------------------------
 | --Deploy--
 |   - Deploys both the arms and the Tray

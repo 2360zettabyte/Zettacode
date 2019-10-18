@@ -8,14 +8,15 @@ XDrive::XDrive(int rightfront, int rightBack, int leftFront, int LeftBack)
 	mechanicalAdvantage = 1;
 	allowedError = 10;
 	wheelDiameter = 4;
+	yDistance = 0;
+	xDistance = 0;
 	pi  = 3.141593;//testing to see if changes work
 }
 
 void XDrive::translate(int inches, int degree, int speed){
 	double ySpeed;
 	double xSpeed;
-	double yDistance;
-	double xDistance;
+
 	double cosine;
 	double sine;
 
@@ -75,21 +76,15 @@ void XDrive::translate(int inches, int degree, int speed){
 	left_front.move_absolute(yDistance, ySpeed);
 
 	//--Feedback Loop--//
-	bool err1,err2,err3,err4;
-	while(err1||err2||err3||err4){
-		err1 = fabs(left_back.get_position()+xDistance)>allowedError;
-		err2 = fabs(right_front.get_position()-xDistance)>allowedError;
-		err3 = fabs(right_back.get_position()+yDistance)>allowedError;
-		err4 = fabs(left_front.get_position()-yDistance)>allowedError;
-	}
+
 
 }
 
 void XDrive::rotate(int degrees,int speed){
 
 	double wheel_diagonal = sqrt(pow(wheelDiameter,2)/2);
-	double frameLength = 9.5+wheel_diagonal;
-	double frameWidth = 3.5+wheel_diagonal;
+	double frameLength = 6+wheel_diagonal;
+	double frameWidth = 4.5+wheel_diagonal;
 	double opposingWheelDistance = 14;
 
 	int direction = 2*(degrees>0)-1; // Gets the directionallity of degrees: clockwise being positive
@@ -116,15 +111,9 @@ void XDrive::rotate(int degrees,int speed){
   left_back.move_absolute(encoderUnits,speed);
   right_front.move_absolute(encoderUnits,speed);
   right_back.move_absolute(encoderUnits,speed);
-	bool err1,err2,err3,err4;
-	while(err1||err2||err3||err4){
-		err1 = fabs(left_back.get_position()-encoderUnits)>allowedError;
-		err2 = fabs(right_front.get_position()-encoderUnits)>allowedError;
-		err3 = fabs(right_back.get_position()-encoderUnits)>allowedError;
-		err4 = fabs(left_front.get_position()-encoderUnits)>allowedError;
-	}
 
-  delay(500);
+	xDistance = encoderUnits;
+	yDistance = encoderUnits;
 
 }
 
@@ -152,4 +141,28 @@ void XDrive::tankDrive(int left, int right, int strafeL, int strafeR){
 	right_front.move_velocity(-200*(left/127.0) - strafeAmount);
 	right_back.move_velocity(-200*(left/127.0) + strafeAmount);
 
+}
+
+void XDrive::wait(){
+	bool err1,err2,err3,err4;
+	while(err1||err2||err3||err4){
+		err1 = fabs(fabs(left_back.get_position())-fabs(xDistance))>allowedError;
+		err2 = fabs(fabs(right_front.get_position())-fabs(xDistance))>allowedError;
+		err3 = fabs(fabs(right_back.get_position())-fabs(yDistance))>allowedError;
+		err4 = fabs(fabs(left_front.get_position())-fabs(yDistance))>allowedError;
+	}
+	left_back.tare_position();
+	left_front.tare_position();
+	right_back.tare_position();
+	right_front.tare_position();
+	xDistance = 0;
+	yDistance = 0;
+	delay(25);
+	/*
+	while(err1||err2||err3||err4){
+		err1 = fabs(left_back.get_position()+xDistance)>allowedError;
+		err2 = fabs(right_front.get_position()-xDistance)>allowedError;
+		err3 = fabs(right_back.get_position()+yDistance)>allowedError;
+		err4 = fabs(left_front.get_position()-yDistance)>allowedError;
+	}*/
 }

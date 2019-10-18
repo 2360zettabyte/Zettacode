@@ -12,6 +12,8 @@ class XDrive{
 		int allowedError;
 		double wheelDiameter;
 		double pi;
+		double yDistance;
+		double xDistance;
 
 	public: //methods that can be accessed by outside code
 
@@ -25,7 +27,7 @@ class XDrive{
 
 	void tankDrive(int left, int right, int strafeL, int strafesR);
 
-
+	void wait();
 };
 #endif
  //10,9,20,12

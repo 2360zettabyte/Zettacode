@@ -21,18 +21,23 @@ void opcontrol(){
   while(true){
     //--Deploy Robot--//
     if(cont.btnA()){
-      armsMoveDegree(15, 100);
-      delay(500);
+      armsMoveDegree(20, 200);
+      delay(1000);
+      anglerMoveDegree(10, 200);
       armsMoveDegree(0,100);
       delay(1000);
       newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
       newArmsDegree = 26; armsSpeed = 100;
     }
+    if(cont.btnB()){
+
+      autonomous();
+    }
 
     if(cont.btnX()){
-      rollerR.move_velocity(-20);
-      rollerL.move_velocity(-20);
+      rollersVel(-20);
       drive.translate(8, 270, 25);
+      drive.wait();
     }
 
 
@@ -63,15 +68,11 @@ void opcontrol(){
       newAnglerDegree = 0;
     }
     if(cont.r2()){
-      rollerR.move_velocity(200);
-      rollerL.move_velocity(200);
+      rollersVel(200);
     }else if(cont.r1()){
-      rollerR.move_velocity(-100);
-      rollerL.move_velocity(-100);
+      rollersVel(-100);
     }else{
-
-      rollerR.move_velocity(0);
-      rollerL.move_velocity(0);
+      rollersVel(0);
     }
     //rollerR.move_velocity(200*(cont.r2()-cont.r1()));
     //rollerL.move_velocity(200*(cont.r2()-cont.r1()));
