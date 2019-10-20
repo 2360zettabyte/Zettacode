@@ -29,17 +29,23 @@ void rollersVel(int velocity){rollerL.move_velocity(velocity+0);
 | --COMPLEX METHODS--
 ------------------------------------------------------------------*/
 void armsAnglerWait(){
-  bool anglerError =0;;
-  bool armsError =0;
-  while(anglerError||armsError){
-    bool anglerError = fabs(anglerGetDegree()-anglerTarget)>allowedError;
-    bool armsError = fabs(armsGetDegree()-armsTarget)>allowedError;
-    delay(10);
-  }
+while(fabs(angler.get_position()-angler.get_target_position())>5){
+  delay(10);
+}
+while(fabs(arms.get_position()-arms.get_target_position())>5){
+  delay(10);
+}
+
 }
 void deploy(){
   double armsDeployment =50;
   double anglerDepoloyment =30;
+
+
+armsMoveDegree(20, 25);
+armsAnglerWait();
+armsMoveDegree(0, 20);
+armsAnglerWait();
 
 }
 

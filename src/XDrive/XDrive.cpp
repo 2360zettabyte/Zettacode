@@ -144,7 +144,11 @@ void XDrive::tankDrive(int left, int right, int strafeL, int strafeR){
 }
 
 void XDrive::wait(){
+
+	double absoluteDistance = sqrt(pow(xDistance,2) + pow(yDistance,2));
+
 	bool err1,err2,err3,err4;
+
 	while(err1||err2||err3||err4){
 		err1 = fabs(fabs(left_back.get_position())-fabs(xDistance))>allowedError;
 		err2 = fabs(fabs(right_front.get_position())-fabs(xDistance))>allowedError;

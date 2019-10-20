@@ -8,29 +8,27 @@ double anglerMult = 21*1800;
 
 //--Angler Arms Loop Variables--//
 int error = 5; //Degrees of error allowed for the arms to begin to move
-int prevAnglerDegree = 0;
-int newAnglerDegree = 0;
-int anglerSpeed = 0;
+
+
 int prevArmsDegree = 0;
 int newArmsDegree = 0;
 int armsSpeed = 0;
 
-double noCollisionDegree = 13;
+double noCollisionDegree = 14;
 
 void opcontrol(){
   while(true){
     //--Deploy Robot--//
     if(cont.btnA()){
-      armsMoveDegree(20, 200);
-      delay(1000);
-      anglerMoveDegree(10, 200);
-      armsMoveDegree(0,100);
-      delay(1000);
-      newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
-      newArmsDegree = 26; armsSpeed = 100;
+      deploy();
     }
     if(cont.btnB()){
 
+      for( double current = millis(); current > (millis() - 5000);){
+        drive.arcadeDrive(cont.joy4(), cont.joy3(), cont.joy1());
+        rollersVel(10);
+        delay(10);
+      }
       autonomous();
     }
 
@@ -46,27 +44,25 @@ void opcontrol(){
 
     //--Control the angling of the Tray--//
     if(armsGetDegree()<3){
-      if(cont.l1()){ newAnglerDegree = 84; anglerSpeed = 100; }
-      if(cont.l2()){ newAnglerDegree = 0; anglerSpeed = 100; }
+      if(cont.l1()){ anglerMoveDegree(84, 100);}
+      if(cont.l2()){ anglerMoveDegree(0, 100); }
 
     }
 
     //--Control the  anglingg of the Rollers
     if(cont.up()){
-      newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
+      //newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
       newArmsDegree = 85; armsSpeed = 100; //  armsMoveDegree(85, 100);
     }
     if(cont.right()){
-      newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
+      //newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
       newArmsDegree = 65; armsSpeed = 100; //  armsMoveDegree(65, 100);
     }
     if(cont.down()){
-      newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
+      //newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
       newArmsDegree = 0; armsSpeed = 100;//armsMoveDegree(0, 100);
     }
-    if(armsGetDegree()<3&&prevArmsDegree==newArmsDegree && prevArmsDegree==0 && newAnglerDegree==prevAnglerDegree && prevAnglerDegree == noCollisionDegree){
-      newAnglerDegree = 0;
-    }
+
     if(cont.r2()){
       rollersVel(200);
     }else if(cont.r1()){
@@ -78,6 +74,36 @@ void opcontrol(){
     //rollerL.move_velocity(200*(cont.r2()-cont.r1()));
 
     //--Angler Arms Loop--//
+
+    if(newArmsDegree!=prevArmsDegree){
+      if(newArmsDegree==0){
+        if(armsGetDegree()>30){
+          armsMoveDegree(30-error, 100);
+        }else{
+          anglerMoveDegree(0, 100);
+          armsMoveDegree(0, 100);
+          prevArmsDegree = newArmsDegree;
+        }
+      }else{
+        if(armsGetDegree()>45-error){
+          anglerMoveDegree(noCollisionDegree, 100);
+          if(anglerGetDegree()>error){
+            armsMoveDegree(newArmsDegree, 100);
+            prevArmsDegree=newArmsDegree;
+          }
+        }else{
+          if(anglerGetDegree()<error){
+            armsMoveDegree(45,100);
+          }else{
+            anglerMoveDegree(0, 100);
+          }
+
+        }
+      }
+    }
+
+
+    /*
     if((prevAnglerDegree != newAnglerDegree)){
       anglerMoveDegree(newAnglerDegree,anglerSpeed);
       prevAnglerDegree = newAnglerDegree;
@@ -87,7 +113,7 @@ void opcontrol(){
         armsMoveDegree(newArmsDegree,armsSpeed);
         prevArmsDegree = newArmsDegree;
       }
-    }
+    }*/
 
 
 
