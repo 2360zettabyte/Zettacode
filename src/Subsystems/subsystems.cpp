@@ -25,6 +25,11 @@ void rollersVel(int velocity){rollerL.move_velocity(velocity+0);
                               rollerR.move_velocity(velocity+0);
                               delay(10);}
 
+void rollersMoveInches(double inches, int speed){
+  rollerL.move_relative(((inches/3)*900), speed);
+  rollerR.move_relative(((inches/3)*900), speed);
+}
+
 /*------------------------------------------------------------------
 | --COMPLEX METHODS--
 ------------------------------------------------------------------*/
@@ -42,10 +47,18 @@ void deploy(){
   double anglerDepoloyment =30;
 
 
-armsMoveDegree(20, 25);
+armsMoveDegree(20, 100);
 armsAnglerWait();
-armsMoveDegree(0, 20);
+armsMoveDegree(0, 100);
 armsAnglerWait();
+delay(500);
+rollersVel(-200);
+armsMoveDegree(45,100);
+armsAnglerWait();
+delay(500);
+armsMoveDegree(0, 100);
+rollersVel(0);
+delay(500);
 
 }
 

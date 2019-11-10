@@ -2,6 +2,7 @@
 #include "../Controller/controllerCustom.h"
 #include "../XDrive/XDrive.h"
 
+
 //--Motor Definitions--//
 extern Motor angler;
 extern Motor rollerR;
@@ -20,6 +21,7 @@ extern const double pi;
 
 //--Global Variables--//
 extern int mainAuton;
+extern bool redTeam;
 
 //--Global Methods--//
 extern void UIFunc();

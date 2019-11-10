@@ -25,6 +25,7 @@ extern double anglerGetDegree();
 ---------------------------------------------------------------------------------*/
 extern void rollersVel(int velocity);
     //Turns both rollers at a certain rpm (+ is intake)
+extern void rollersMoveInches(double inches, int speed);
 
 /*------------------------------------------------------------------
 | --armsAnglerWait--

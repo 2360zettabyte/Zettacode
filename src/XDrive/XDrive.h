@@ -28,6 +28,8 @@ class XDrive{
 	void tankDrive(int left, int right, int strafeL, int strafesR);
 
 	void wait();
+
+	void driveLock(bool enabled);
 };
 #endif
  //10,9,20,12

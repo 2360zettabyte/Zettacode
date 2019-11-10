@@ -13,23 +13,23 @@ int error = 5; //Degrees of error allowed for the arms to begin to move
 int prevArmsDegree = 0;
 int newArmsDegree = 0;
 int armsSpeed = 0;
+bool rollersEnabled = true;
 
-double noCollisionDegree = 14;
+double noCollisionDegree = 17;
 
 void opcontrol(){
+  armsMoveDegree(noCollisionDegree,50);
   while(true){
     //--Deploy Robot--//
     if(cont.btnA()){
-      deploy();
+      armsMoveDegree(noCollisionDegree,50);
+      arms.set_brake_mode(E_MOTOR_BRAKE_HOLD);
     }
     if(cont.btnB()){
 
-      for( double current = millis(); current > (millis() - 5000);){
-        drive.arcadeDrive(cont.joy4(), cont.joy3(), cont.joy1());
-        rollersVel(10);
-        delay(10);
-      }
-      autonomous();
+      armsMoveDegree(0, 25);
+      arms.set_brake_mode(E_MOTOR_BRAKE_COAST);
+
     }
 
     if(cont.btnX()){
@@ -39,11 +39,17 @@ void opcontrol(){
     }
 
 
+    if(cont.btnY()){
+      rollersMoveInches(-5, 50);
+      rollersEnabled = false;
+    }
+
+
     //--Driver control of the X-Drive--//
     drive.arcadeDrive(cont.joy4(), cont.joy3(), cont.joy1());
 
     //--Control the angling of the Tray--//
-    if(armsGetDegree()<3){
+    if(armsGetDegree()<15+10){
       if(cont.l1()){ anglerMoveDegree(84, 100);}
       if(cont.l2()){ anglerMoveDegree(0, 100); }
 
@@ -62,18 +68,22 @@ void opcontrol(){
       //newAnglerDegree = noCollisionDegree; anglerSpeed = 100;
       newArmsDegree = 0; armsSpeed = 100;//armsMoveDegree(0, 100);
     }
-
-    if(cont.r2()){
-      rollersVel(200);
-    }else if(cont.r1()){
-      rollersVel(-100);
+    if(rollersEnabled){
+      if(cont.r2()){
+        rollersVel(150);
+      }else if(cont.r1()){
+        rollersVel(-100);
+      }else{
+        rollersVel(0);
+      }
     }else{
-      rollersVel(0);
+      rollersEnabled = fabs(rollerR.get_target_position()-rollerR.get_position())<5;
     }
     //rollerR.move_velocity(200*(cont.r2()-cont.r1()));
     //rollerL.move_velocity(200*(cont.r2()-cont.r1()));
 
     //--Angler Arms Loop--//
+
 
     if(newArmsDegree!=prevArmsDegree){
       if(newArmsDegree==0){
@@ -81,21 +91,21 @@ void opcontrol(){
           armsMoveDegree(30-error, 100);
         }else{
           anglerMoveDegree(0, 100);
-          armsMoveDegree(0, 100);
+          armsMoveDegree(noCollisionDegree, 100);
           prevArmsDegree = newArmsDegree;
         }
       }else{
-        if(armsGetDegree()>45-error){
+        if(armsGetDegree()>30-error){
           anglerMoveDegree(noCollisionDegree, 100);
           if(anglerGetDegree()>error){
-            armsMoveDegree(newArmsDegree, 100);
+            armsMoveDegree(newArmsDegree, 80);
             prevArmsDegree=newArmsDegree;
           }
         }else{
           if(anglerGetDegree()<error){
-            armsMoveDegree(45,100);
+            armsMoveDegree(30,100);
           }else{
-            anglerMoveDegree(0, 100);
+            anglerMoveDegree(noCollisionDegree, 100);
           }
 
         }
@@ -105,21 +115,21 @@ void opcontrol(){
 
     /*
     if((prevAnglerDegree != newAnglerDegree)){
-      anglerMoveDegree(newAnglerDegree,anglerSpeed);
-      prevAnglerDegree = newAnglerDegree;
-    }
-    if(fabs(anglerGetDegree()-prevAnglerDegree)<error){
-      if((prevArmsDegree != newArmsDegree) ){
-        armsMoveDegree(newArmsDegree,armsSpeed);
-        prevArmsDegree = newArmsDegree;
-      }
-    }*/
-
-
-
-
-    //--End of Loop--//
-
-    delay(10);
+    anglerMoveDegree(newAnglerDegree,anglerSpeed);
+    prevAnglerDegree = newAnglerDegree;
   }
+  if(fabs(anglerGetDegree()-prevAnglerDegree)<error){
+  if((prevArmsDegree != newArmsDegree) ){
+  armsMoveDegree(newArmsDegree,armsSpeed);
+  prevArmsDegree = newArmsDegree;
+}
+}*/
+
+
+
+
+//--End of Loop--//
+
+delay(10);
+}
 }
