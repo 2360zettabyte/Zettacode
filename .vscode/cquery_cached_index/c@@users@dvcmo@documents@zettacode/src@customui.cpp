@@ -2,6 +2,7 @@
 #include "MyHeaders/global.h"
 
 
+
 std::string contText = "";
 bool redTeam;
 void UIFunc(){
@@ -41,20 +42,25 @@ lv_style_copy(&teamStyleOff, &defaultStyle);    /*Copy a built-in style to initi
 teamStyleOff.body.main_color = LV_COLOR_MAKE(200, 0, 0);
 teamStyleOff.body.grad_color = LV_COLOR_MAKE(200, 0, 0);
 
-
+	LV_IMG_DECLARE(logo);
 
 	lv_obj_t * scr = lv_obj_create(NULL, NULL);
 	lv_obj_set_style(scr, &screenStyle);
 	lv_scr_load(scr);
 
+	lv_obj_t * img1 = lv_img_create(lv_scr_act(), NULL);
+  lv_img_set_src(img1, &logo);
+  lv_obj_set_pos(img1, 20,0);
+	//lv_obj_set_size(img1, 200, 200);
+
+
 	lv_obj_t *description = lv_label_create(lv_scr_act(),NULL); //label
-	lv_label_set_recolor(description, true);
-	lv_obj_set_pos(description, 30,180);
-	lv_label_set_text(description,"#fcba03 2360 Zettabyte#");
+	lv_obj_set_pos(description, 60,200);
+	lv_label_set_text(description,"2360 Zettabyte");
 
 	lv_obj_t *currentAuton = lv_label_create(lv_scr_act(),NULL); //label
 	lv_obj_set_pos(currentAuton, 320,10);
-	lv_obj_set_style(currentAuton, &defaultStyle);
+
 	lv_label_set_text(currentAuton,autonNum.c_str());
 
 	lv_obj_t * prev = lv_btn_create(scr, NULL);

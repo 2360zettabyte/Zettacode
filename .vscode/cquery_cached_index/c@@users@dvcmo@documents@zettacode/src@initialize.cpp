@@ -9,7 +9,7 @@
 #define KD 0.1f//<---- PID TESTING
 
 //--Motor Definitions--//
-XDrive drive(15,20,12,13); //RF RB LF LB
+XDrive drive(15,17,12,13); //RF RB LF LB
 Motor angler(16,true);
 Motor rollerR(10,true);
 Motor rollerL(1);
