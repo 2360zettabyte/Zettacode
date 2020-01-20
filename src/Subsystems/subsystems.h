@@ -14,10 +14,18 @@ extern double armsGetDegree();
 | --Angler Basic Methods--
 |   - Various basic methods for the angler that are used for more complex methods
 ---------------------------------------------------------------------------------*/
+extern int anglerSource(); //FOR PID USE
+extern void anglerOutput(int output);//FOR PID USE
+
 extern void anglerMoveDegree(double degree, int speed);
     //moves the angler at an absolute given speed to a given degree relative to its starting position
+
+extern void anglerForceMoveDegree(double degree, int speed);
+    //moves the angler at an absolute given speed to a given degree relative to its starting position
+
 extern double anglerGetDegree();
     //returns a degree (as a double) of the angler relative to its starting angle
+
 
 /*---------------------------------------------------------------------------------
 | --Rollers Basic Methods--

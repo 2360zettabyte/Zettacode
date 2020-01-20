@@ -150,7 +150,7 @@ void XDrive::wait(){
 	int slowDownMult = 4; //The bigger the greater the acceleration
 	int xVel = right_front.get_target_velocity();
 	int yVel = left_front.get_target_velocity();
-	double calculatedTime = ((sqrt(pow(xDistance,2) + pow(yDistance,2)))/900) / (right_front.get_target_velocity()*900*60) + 5;
+	double calculatedTime = ((sqrt(pow(xDistance,2) + pow(yDistance,2)))/900) / (right_front.get_target_velocity()*900*60) + 3;
 
 	while(timer &&(err1||err2||err3||err4)){
 		timer = (millis() - startingTime) < calculatedTime*1000;

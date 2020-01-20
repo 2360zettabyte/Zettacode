@@ -1,10 +1,9 @@
 #include "main.h"
 #include "MyHeaders/global.h"
 
-
-
 std::string contText = "";
 bool redTeam;
+int isRed;
 void UIFunc(){
 	pros::lcd::shutdown(); //disables default Screen
 	pros::Controller main(pros::E_CONTROLLER_MASTER); //Creates an object of the main controller
@@ -107,6 +106,7 @@ teamStyleOff.body.grad_color = LV_COLOR_MAKE(200, 0, 0);
 		} //Team Toggle Button
 
 		if(redTeam == true){
+			isRed=1;
 			teamStyle.body.main_color = LV_COLOR_MAKE(255, 0, 0);
 			teamStyle.body.grad_color = LV_COLOR_MAKE(255, 0, 0);
 			teamStyleOff.body.main_color = LV_COLOR_MAKE(200, 0, 0);
@@ -114,6 +114,7 @@ teamStyleOff.body.grad_color = LV_COLOR_MAKE(200, 0, 0);
 			lv_obj_refresh_style(teamBtn);
 
 		}else{
+			isRed=0;
 			teamStyle.body.main_color = LV_COLOR_MAKE(0, 0, 255);
 			teamStyle.body.grad_color = LV_COLOR_MAKE(0, 0, 255);
 			teamStyleOff.body.main_color = LV_COLOR_MAKE(0, 0, 200);
@@ -125,10 +126,6 @@ teamStyleOff.body.grad_color = LV_COLOR_MAKE(200, 0, 0);
 
 		lv_label_set_text(currentAuton,autonNum.c_str());
 
-
-
-
-		//main.set_text(2, 1, contText.c_str()); //Controller debugging screen
 		pros::delay(500);
 	}
 }
