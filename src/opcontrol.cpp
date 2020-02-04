@@ -25,6 +25,46 @@ void opcontrol(){
   while(true){
     drive.arcadeDrive(cont.joy4(), cont.joy3(), cont.joy1());
 
+    if(cont.btnA()){
+      drive.driveLock(true);
+      drive.translate(40, 90, 100);
+      drive.waitPID();
+      delay(200);
+      drive.translate(-40, 90, 100);
+      drive.waitPID();
+
+      delay(500);
+
+      drive.driveLock(false);
+
+
+      /*
+      anglerMoveDegree(80, 70);
+      rollersVel(10);
+      while(anglerGetDegree()<50){
+        anglerPID.tick();
+        drive.arcadeDrive(cont.joy4(), cont.joy3(), cont.joy1());
+      }
+      rollersVel(-10);
+      while(anglerGetDegree()<79){
+        anglerPID.tick();
+        drive.arcadeDrive(cont.joy4(), cont.joy3(), cont.joy1());
+      }
+      delay(500);*/
+    }
+    if(cont.btnB()){
+      drive.driveLock(true);
+      drive.translate(40, 90, 50);
+      drive.wait();
+      delay(500);
+      drive.translate(-40, 90, 50);
+      drive.wait();
+      delay(500);
+      drive.driveLock(false);
+
+
+    }
+
     if(cont.left()&&cont.right()){ //1 inch track
       double units = (2.1 * 1800)/(1.5 * 3.1416);
       angler.move_absolute(units, 50);
